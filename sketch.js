@@ -11,7 +11,7 @@ let rows;
 let current; // = new float[cols][rows];
 let previous; // = new float[cols][rows];
 
-let dampening = 0.98;
+let dampening = 0.995;
 
 // droplet array encoding the position of each droplet and its size
 let droplets = [];
@@ -45,10 +45,10 @@ function draw() {
         //if on the minute
         if (second() == 0) {
             //push a large droplet
-            pushDroplet(20);
+            pushDroplet(int(random(20, width - 10)), 0, 20);
         }
         else {
-            pushDroplet(10);
+            pushDroplet(int(random(20, width - 10)));
         }
     }
 
@@ -89,10 +89,9 @@ function ripple() {
   previous = current;
   current = temp;
 }
-function pushDroplet(x=int(random(20, width-10)), y=0, s=10) {
+function pushDroplet(x, y=0, s=10) {
     // create a new droplet at a random x location at the top of the canvas
     // set the size of the droplet to 1
-    x = int(random(20, width - 10));
     // add the droplet to the droplet array
     v = 0.2; //initial velocity
     droplets.push([x, y, s, v]);
@@ -112,7 +111,8 @@ function updateDroplets() {
         droplets[i][3] += g;
         if (abs(droplets[i][1] - waterLevel) < 3) {
             triggerRipple(droplets[i][0]);
-            // pop(droplets[i]); // remove the droplet from the array
+            // remove the droplet from the array
+            droplets.splice(i, 1);
         }
         if (droplets[i][1] > waterLevel) {
             // pop(droplets[i]); // remove the droplet from the array
