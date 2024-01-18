@@ -11,14 +11,14 @@ let rows;
 let current; // = new float[cols][rows];
 let previous; // = new float[cols][rows];
 
-let dampening = 0.99;
+let dampening = 0.98;
 
 // droplet array encoding the position of each droplet and its size
 let droplets = [];
 
 function setup() {
   pixelDensity(1);
-  createCanvas(80, 800);
+  createCanvas(120, 800);
   cols = width;
   rows = height;
   // The following line initializes a 2D cols-by-rows array with zeroes
@@ -29,7 +29,7 @@ function setup() {
 }
 
 function mouseClicked() {
-    pushDroplet();
+    pushDroplet(mouseX, mouseY, 10);
 }
 
 //current hour
@@ -40,6 +40,8 @@ function draw() {
     waterLevel = height-int(hour()/24*height+minute()/60*height/24);
     background(255);
     ripple();
+    // pause one ms
+    // delay(1);
     updateDroplets();
 
     // triggerRipple() every second
@@ -91,16 +93,12 @@ function ripple() {
   previous = current;
   current = temp;
 }
-function pushDroplet(s) {
+function pushDroplet(x=int(random(20, width-10)), y=0, s=10) {
     // create a new droplet at a random x location at the top of the canvas
     // set the size of the droplet to 1
 
     // add the droplet to the droplet array
-
-    x = int(random(20, width-10));
-    y = 0;
-    size = s;
-    droplets.push([x, y, size]);
+    droplets.push([x, y, s]);
 }
 
 function updateDroplets() {
