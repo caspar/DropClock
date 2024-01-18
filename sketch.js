@@ -18,7 +18,7 @@ let droplets = [];
 
 function setup() {
   pixelDensity(1);
-  createCanvas(120, 800);
+  createCanvas(120, 760);
   cols = width;
   rows = height;
   // The following line initializes a 2D cols-by-rows array with zeroes
@@ -31,10 +31,6 @@ function setup() {
 function mouseClicked() {
     pushDroplet(mouseX, mouseY, 10);
 }
-
-//current hour
-let hr = hour();
-//current minute
 
 function draw() {
     waterLevel = height-int(hour()/24*height+minute()/60*height/24);
@@ -96,27 +92,30 @@ function ripple() {
 function pushDroplet(x=int(random(20, width-10)), y=0, s=10) {
     // create a new droplet at a random x location at the top of the canvas
     // set the size of the droplet to 1
-
+    x = int(random(20, width - 10));
     // add the droplet to the droplet array
-    droplets.push([x, y, s]);
+    v = 0.2; //initial velocity
+    droplets.push([x, y, s, v]);
 }
 
 function updateDroplets() {
     // update the position of each droplet
     // if the droplet hits the water surface, create a ripple at that location
 
-    speed = 2;
+    g = 0.05;
     for (let i = 0; i < droplets.length; i++) {
         // draw droplet
         fill(0,200,255);
-        ellipse(droplets[i][0], droplets[i][1], droplets[i][2], droplets[i][2]);
-        droplets[i][1] += speed;
-        if (droplets[i][1] == waterLevel) {
+        ellipse(droplets[i][0], droplets[i][1], droplets[i][2]);
+        // update droplet position and velocity
+        droplets[i][1] += droplets[i][3];
+        droplets[i][3] += g;
+        if (abs(droplets[i][1] - waterLevel) < 3) {
             triggerRipple(droplets[i][0]);
             // pop(droplets[i]); // remove the droplet from the array
         }
         if (droplets[i][1] > waterLevel) {
-            pop(droplets[i]); // remove the droplet from the array
+            // pop(droplets[i]); // remove the droplet from the array
         }
     }
 }
