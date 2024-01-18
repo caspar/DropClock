@@ -12,13 +12,17 @@ let current; // = new float[cols][rows];
 let previous; // = new float[cols][rows];
 
 let dampening = 0.995;
+let offset = 35;
 
 // droplet array encoding the position of each droplet and its size
 let droplets = [];
 
 function setup() {
-  pixelDensity(1);
-  createCanvas(120, 760);
+    // reset();
+    // createCanvas(1420, 760);
+    //   createcanvas(windowWidth-10, windowHeight-10);
+    createCanvas(windowWidth, windowHeight);
+    pixelDensity(1);
   cols = width;
   rows = height;
   // The following line initializes a 2D cols-by-rows array with zeroes
@@ -33,7 +37,7 @@ function mouseClicked() {
 }
 
 function draw() {
-    waterLevel = height-int(hour()/24*height+minute()/60*height/24);
+    waterLevel = height-int(hour()/24*height+minute()/60*height/24-offset);
     background(255);
     ripple();
     // pause one ms
@@ -101,7 +105,7 @@ function updateDroplets() {
     // update the position of each droplet
     // if the droplet hits the water surface, create a ripple at that location
 
-    g = 0.05;
+    g = 0.1;
     for (let i = 0; i < droplets.length; i++) {
         // draw droplet
         fill(0,200,255);
@@ -130,7 +134,7 @@ function drawTickMarks() {
         let tickHeight = height/24;
         let tickWidth = 10;
         let tickX = 0;
-        let tickY = i*tickHeight;
+        let tickY = offset + i*tickHeight;
         stroke(0);
         strokeWeight(1);
         line(tickX, tickY, tickX+tickWidth, tickY);
@@ -138,4 +142,11 @@ function drawTickMarks() {
         fill(0);
         text(24-i, tickX+tickWidth+5, tickY+5);
     }
+}
+
+function spray(x, y=waterLevel, s=1, v=0.2) {
+    // create a new droplet at a random x location at the top of the canvas
+    // set the size of the droplet to 1
+    // add the droplet to the droplet array
+    droplets.push([x, y, s, v]);
 }
