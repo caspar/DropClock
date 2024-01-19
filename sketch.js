@@ -120,7 +120,7 @@ function updateDroplets() {
         // update droplet position and velocity
         droplets[i][1] += droplets[i][3];
         droplets[i][3] += g;
-        if (abs(droplets[i][1] - waterLevel) < 3) {
+        if (abs(droplets[i][1] - waterLevel) < 5) {
             // dropAudio.play();
             triggerRipple(droplets[i][0]);
             // remove the droplet from the array
