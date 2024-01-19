@@ -126,9 +126,6 @@ function updateDroplets() {
             // remove the droplet from the array
             droplets.splice(i, 1);
         }
-        if (droplets[i][1] > waterLevel) {
-            // pop(droplets[i]); // remove the droplet from the array
-        }
     }
 }
 
