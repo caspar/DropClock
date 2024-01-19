@@ -11,7 +11,7 @@ let rows;
 let current; // = new float[cols][rows];
 let previous; // = new float[cols][rows];
 
-let dampening = 0.999;
+let dampening = 0.995;
 let offset = 35;
 
 // let dropAudio;
