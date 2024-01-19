@@ -11,11 +11,18 @@ let rows;
 let current; // = new float[cols][rows];
 let previous; // = new float[cols][rows];
 
-let dampening = 0.995;
+let dampening = 0.999;
 let offset = 35;
+
+// let dropAudio;
 
 // droplet array encoding the position of each droplet and its size
 let droplets = [];
+
+// function preload() {
+//     soundFormats('mp3');
+//     dropAudio = loadSound('drop.mp3');
+// }
 
 function setup() {
     // reset();
@@ -29,7 +36,7 @@ function setup() {
   // in every array cell, and is equivalent to this Processing line:
   // current = new float[cols][rows];
   current = new Array(cols).fill(0).map(n => new Array(rows).fill(0));
-  previous = new Array(cols).fill(0).map(n => new Array(rows).fill(0));
+    previous = new Array(cols).fill(0).map(n => new Array(rows).fill(0));
 }
 
 function mouseClicked() {
@@ -114,6 +121,7 @@ function updateDroplets() {
         droplets[i][1] += droplets[i][3];
         droplets[i][3] += g;
         if (abs(droplets[i][1] - waterLevel) < 3) {
+            // dropAudio.play();
             triggerRipple(droplets[i][0]);
             // remove the droplet from the array
             droplets.splice(i, 1);
