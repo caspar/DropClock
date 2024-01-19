@@ -112,7 +112,8 @@ function updateDroplets() {
     // update the position of each droplet
     // if the droplet hits the water surface, create a ripple at that location
 
-    g = 0.1;
+    let threshold = 12;
+    let g = 0.1;
     for (let i = 0; i < droplets.length; i++) {
         // draw droplet
         fill(0,200,255);
@@ -120,7 +121,7 @@ function updateDroplets() {
         // update droplet position and velocity
         droplets[i][1] += droplets[i][3];
         droplets[i][3] += g;
-        if (abs(droplets[i][1] - waterLevel) < 5) {
+        if (abs(droplets[i][1] - waterLevel) < threshold) {
             // dropAudio.play();
             triggerRipple(droplets[i][0]);
             // remove the droplet from the array
